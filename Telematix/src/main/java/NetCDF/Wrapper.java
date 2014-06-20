@@ -53,6 +53,10 @@ public class Wrapper {
         missingData = this.netcdf.findGlobalAttribute("MissingData").getNumericValue();
         unitOfMeasure = this.netcdf.findGlobalAttribute("Unit-value").getStringValue();
 
+        if (unitOfMeasure.equals("")){
+            unitOfMeasure = "mm/hour";
+        }
+
     }
 
     private void buildGrid() throws IOException{

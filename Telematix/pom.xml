@@ -4,7 +4,7 @@
 
   <groupId>Telematix</groupId>
   <artifactId>Telematix</artifactId>
-  <version>1.1</version>
+  <version>1.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>Telematix</name>
