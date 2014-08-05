@@ -2,6 +2,9 @@ package Telematix;
 
 import java.io.IOException;
 import java.util.List;
+import Telematix.Moment.MomentInterface;
+import Telematix.Moment.Moment;
+import Telematix.Moment.MomentValue;
 import ucar.unidata.geoloc.LatLonPoint;
 import org.joda.time.DateTime;
 import java.util.Properties;
@@ -20,11 +23,11 @@ public class App
             List<Variable> variables = Variable.getVariables();
 
             // load the records from the sample trip into a list, sorted by date
-            List<Moment> moments = Moment.getMoments(App.getProperties().getProperty("inputPath").toString());
+            List<MomentInterface> moments = Moment.getMoments();
 
             int counter = 0;
 
-            for (Moment moment : moments){
+            for (MomentInterface moment : moments){
 
                 String percentComplete = (new DecimalFormat("#.##")).format((counter++ / (double) moments.size()) * 100);
 
@@ -92,7 +95,7 @@ public class App
         System.out.println(msg);
     }
 
-    public static void writeMoments(List<Moment> moments){
+    public static void writeMoments(List<MomentInterface> moments){
         // writes moments to console
 
         for(Object moment: moments){
