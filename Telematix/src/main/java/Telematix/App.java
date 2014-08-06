@@ -2,6 +2,7 @@ package Telematix;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.ArrayList;
 import Telematix.Moment.MomentInterface;
 import Telematix.Moment.Moment;
 import Telematix.Moment.MomentValue;
@@ -16,6 +17,8 @@ public class App
 
     public static void main( String[] args )
     {
+
+        List<String> missingTimes = new ArrayList<String>();
 
         try {
 
@@ -34,6 +37,11 @@ public class App
                 write(String.format("%s%% complete - begin processing moment.. %s", percentComplete, moment.toString()));
 
                 DateTime utc = moment.getDatetimeUTC();
+
+                if(missingTimes.contains(utc.toString())){
+                    write(String.format("Date Directory does not exist.. %s", utc.toString()));
+                    continue;  // skip this date if we've already found that it's missing
+                }
 
                 // for each netcdf variable
                 for (Variable variable : variables){
@@ -75,7 +83,8 @@ public class App
                     }catch (Exception e) {
                         //e.printStackTrace();
                         App.write(e.getMessage());
-                        break;  //dont bother checking for the other variables if the date doesn't exist
+                        missingTimes.add(moment.getDatetimeUTC().toString());
+                        break;  //don't bother checking for the other variables if the date doesn't exist
                     }
 
                 }
