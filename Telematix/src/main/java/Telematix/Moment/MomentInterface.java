@@ -10,6 +10,7 @@ public interface MomentInterface {
     public DateTime getDatetime();
     public DateTime getDatetimeUTC();
     public void addMomentValue(MomentValue momentValue);
+    public String getHeaderRow();
 
 }
 

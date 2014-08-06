@@ -8,7 +8,7 @@ import java.io.FileWriter;
 
 public class CSV {
 
-    private String headerRow = "COUNTYNAME,DATETIME,DATE,LON,LAT,PK,UTC,rain_60min_value,rain_60min_uom, rain_60min_timestamp,snow_60min_value,snow_60min_uom,snow_60min_timestamp,ice_60min_value,ice_60min_uom,ice_60min_timestamp,rain_rate_value,rain_rate_uom,rain_rate_timestamp";
+    private String headerRow = null;
     private String csvPath;
     private List<MomentInterface> moments;
     private FileWriter writer;
@@ -22,10 +22,14 @@ public class CSV {
 
             writer = new FileWriter(csvPath, false);
 
-            // add the header row
-            addRow(headerRow);
-
             for (MomentInterface moment : moments){
+
+                if (headerRow == null){
+                    // add the header row (this only happens once, on the first pass)
+                    headerRow = moment.getHeaderRow();
+                    addRow(headerRow);
+                }
+
                 String csvLine = moment.toString();
                 addRow(csvLine);
             }
