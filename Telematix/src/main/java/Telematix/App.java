@@ -75,6 +75,7 @@ public class App
                     }catch (Exception e) {
                         //e.printStackTrace();
                         App.write(e.getMessage());
+                        break;  //dont bother checking for the other variables if the date doesn't exist
                     }
 
                 }
