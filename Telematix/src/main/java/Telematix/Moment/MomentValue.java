@@ -82,12 +82,17 @@ public class MomentValue {
 
     }
 
-    public static MomentValue fromProperties(String varName, DateTime utc) throws FileNotFoundException, IOException{
+    private static Properties properties = null;
+
+    public static MomentValue fromProperties(String varName, DateTime utc, boolean holdFirstLoadInMemory) throws FileNotFoundException, IOException{
 
         String key = MomentValue.getCacheKey(varName, utc);
 
-        Properties properties = new Properties();
-        properties.load(new FileInputStream(getMomentCacheFilePath()));
+        if ((!holdFirstLoadInMemory)||(null == properties)){
+            properties = new Properties();
+            properties.load(new FileInputStream(getMomentCacheFilePath()));
+        }
+
         Object value = properties.get(key);
 
         if (value == null){

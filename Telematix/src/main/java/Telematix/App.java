@@ -30,6 +30,9 @@ public class App
 
             int counter = 0;
 
+            boolean allDataIsCached = "true".equals(getProperties().getProperty("allDataIsCached"));
+
+
             for (MomentInterface moment : moments){
 
                 String percentComplete = (new DecimalFormat("#.##")).format((counter++ / (double) moments.size()) * 100);
@@ -51,7 +54,7 @@ public class App
                         LatLonPoint latlon = moment.getLatLon();
 
                         // is this value already saved? (to avoid netcdf processing time again later)
-                        MomentValue momentValue = MomentValue.fromProperties(variable.getName(), moment.getDatetimeUTC());
+                        MomentValue momentValue = MomentValue.fromProperties(variable.getName(), moment.getDatetimeUTC(), allDataIsCached);
 
                         if (null != momentValue){
                             moment.addMomentValue(momentValue);
