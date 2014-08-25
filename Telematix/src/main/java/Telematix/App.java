@@ -32,7 +32,6 @@ public class App
 
             boolean allDataIsCached = "true".equals(getProperties().getProperty("allDataIsCached"));
 
-
             for (MomentInterface moment : moments){
 
                 String percentComplete = (new DecimalFormat("#.##")).format((counter++ / (double) moments.size()) * 100);
@@ -54,7 +53,8 @@ public class App
                         LatLonPoint latlon = moment.getLatLon();
 
                         // is this value already saved? (to avoid netcdf processing time again later)
-                        MomentValue momentValue = MomentValue.fromProperties(variable.getName(), moment.getDatetimeUTC(), allDataIsCached);
+                        //MomentValue momentValue = MomentValue.fromProperties(variable.getName(), moment.getDatetimeUTC(), allDataIsCached);
+                        MomentValue momentValue = null;
 
                         if (null != momentValue){
                             moment.addMomentValue(momentValue);
@@ -81,7 +81,7 @@ public class App
                         moment.addMomentValue(momentValue);
 
                         // save this value (to avoid netcdf processing time again later)
-                        momentValue.toProperties();
+                        //momentValue.toProperties();
 
                     }catch (Exception e) {
                         //e.printStackTrace();
@@ -117,10 +117,12 @@ public class App
 
     }
 
+    public static Properties props = null;
     public static Properties getProperties() throws IOException{
+        if (null != props) { return props; }
         String resourceName = "config.properties";
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        Properties props = new Properties();
+        props = new Properties();
         InputStream resourceStream = loader.getResourceAsStream(resourceName);
         props.load(resourceStream);
         return props;
